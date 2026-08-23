@@ -48,6 +48,12 @@ npm run build
 npm run preview
 ```
 
+### Demo en vivo (GitHub Pages)
+
+<https://krizrome.github.io/usabilidad-web-lab/>
+
+Desplegado automáticamente con `gh-pages`.
+
 ### Tareas a realizar
 
 1. 🔍 **Buscar un producto** usando el buscador.
