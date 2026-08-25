@@ -27,14 +27,6 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: codigo
-    attributes:
-      label: 'Código o sección'
-      placeholder: 'Ej: CIV Sis · Diseño Web Lun 13:45-15:15'
-    validations:
-      required: true
-
   - type: dropdown
     id: total
     attributes:
