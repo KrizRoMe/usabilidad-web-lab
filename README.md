@@ -81,25 +81,8 @@ Para cada problema encontrado:
 Intenta encontrar al menos **5 problemas** y ordénalos por severidad.
 
 > ⚠️ No intentes abrir la consola del navegador para "ver la respuesta".
-> Las soluciones están solo en la guía del docente.
+> Las soluciones NO están en este repositorio.
 
----
-
-## ⚠️ DOCENTE — NO MOSTRAR A LOS ESTUDIANTES
-
-<details>
-<summary>🔒 Esta sección contiene material exclusivo del docente</summary>
-
-La guía completa con las respuestas está en
-[`docs/teacher-guide.md`](docs/teacher-guide.md).
-
-Ahí se documentan los **problemas intencionales** implementados,
-su ubicación en la interfaz, los principios que violan, evidencia,
-impacto, severidad sugerida y soluciones recomendadas.
-
-**Esta sección NO debe mostrarse a los estudiantes.**
-
-</details>
 
 ---
 
@@ -125,7 +108,6 @@ usabilidad-web-lab/
 │   └── styles.css       ← estilos (incluye "problemas" intencionales)
 ├── docs/
 │   ├── hallazgo-template.md   ← plantilla para documentar hallazgos
-│   ├── teacher-guide.md       ← 🔒 guía del docente
 │   └── screenshots/           ← capturas de la interfaz
 └── dist/                ← build de producción
 ```
