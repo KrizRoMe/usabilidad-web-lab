@@ -58,19 +58,13 @@ body:
       label: 'Principio violado (1)'
       options:
         - ISO 9241-11 (eficacia, eficiencia, satisfacción)
-        - Heurística de Nielsen (indicar cuál)
-        - Ley de Hick (tiempo de decisión = log₂ opciones)
-        - Ley de Miller (7 ± 2 chunks)
-        - Ley de Fitts (tamaño/distancia del objetivo)
-        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
-        - Carga cognitiva (intrínseca / extrínseca / germana)
-        - Pre-selected opt-in / consentimiento manipulativo
-        - Hidden costs / bait and switch
-        - Confirmshaming / roach motel
-        - Forced continuity / sneak into basket
-        - Disguised ads / friend spam
-        - Progressive disclosure engañosa
-        - Hidden information
+        - Heurística de Nielsen
+        - Ley de Hick
+        - Ley de Miller
+        - Ley de Fitts
+        - Principios de Gestalt
+        - Carga cognitiva
+        - Dark pattern
         - Otro / no estoy seguro
     validations:
       required: true
@@ -127,11 +121,11 @@ body:
     validations:
       required: true
 
-  - type: input
+  - type: upload
     id: h1_capturas
     attributes:
-      label: 'Captura(s) del hallazgo 1'
-      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+      label: 'Adjuntar captura(s) del hallazgo 1'
+      description: 'Arrastra imágenes o haz clic para seleccionar. Formatos: PNG, JPG, GIF. Máximo 10MB por archivo.'
     validations:
       required: false
 
@@ -155,19 +149,13 @@ body:
       label: 'Principio violado (2)'
       options:
         - ISO 9241-11 (eficacia, eficiencia, satisfacción)
-        - Heurística de Nielsen (indicar cuál)
-        - Ley de Hick (tiempo de decisión = log₂ opciones)
-        - Ley de Miller (7 ± 2 chunks)
-        - Ley de Fitts (tamaño/distancia del objetivo)
-        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
-        - Carga cognitiva (intrínseca / extrínseca / germana)
-        - Pre-selected opt-in / consentimiento manipulativo
-        - Hidden costs / bait and switch
-        - Confirmshaming / roach motel
-        - Forced continuity / sneak into basket
-        - Disguised ads / friend spam
-        - Progressive disclosure engañosa
-        - Hidden information
+        - Heurística de Nielsen
+        - Ley de Hick
+        - Ley de Miller
+        - Ley de Fitts
+        - Principios de Gestalt
+        - Carga cognitiva
+        - Dark pattern
         - Otro / no estoy seguro
     validations:
       required: true
@@ -224,11 +212,11 @@ body:
     validations:
       required: true
 
-  - type: input
+  - type: upload
     id: h2_capturas
     attributes:
-      label: 'Captura(s) del hallazgo 2'
-      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+      label: 'Adjuntar captura(s) del hallazgo 2'
+      description: 'Arrastra imágenes o haz clic para seleccionar. Formatos: PNG, JPG, GIF. Máximo 10MB por archivo.'
     validations:
       required: false
 
@@ -252,19 +240,13 @@ body:
       label: 'Principio violado (3)'
       options:
         - ISO 9241-11 (eficacia, eficiencia, satisfacción)
-        - Heurística de Nielsen (indicar cuál)
-        - Ley de Hick (tiempo de decisión = log₂ opciones)
-        - Ley de Miller (7 ± 2 chunks)
-        - Ley de Fitts (tamaño/distancia del objetivo)
-        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
-        - Carga cognitiva (intrínseca / extrínseca / germana)
-        - Pre-selected opt-in / consentimiento manipulativo
-        - Hidden costs / bait and switch
-        - Confirmshaming / roach motel
-        - Forced continuity / sneak into basket
-        - Disguised ads / friend spam
-        - Progressive disclosure engañosa
-        - Hidden information
+        - Heurística de Nielsen
+        - Ley de Hick
+        - Ley de Miller
+        - Ley de Fitts
+        - Principios de Gestalt
+        - Carga cognitiva
+        - Dark pattern
         - Otro / no estoy seguro
     validations:
       required: true
@@ -321,11 +303,11 @@ body:
     validations:
       required: true
 
-  - type: input
+  - type: upload
     id: h3_capturas
     attributes:
-      label: 'Captura(s) del hallazgo 3'
-      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+      label: 'Adjuntar captura(s) del hallazgo 3'
+      description: 'Arrastra imágenes o haz clic para seleccionar. Formatos: PNG, JPG, GIF. Máximo 10MB por archivo.'
     validations:
       required: false
 
@@ -349,19 +331,13 @@ body:
       label: 'Principio violado (4)'
       options:
         - ISO 9241-11 (eficacia, eficiencia, satisfacción)
-        - Heurística de Nielsen (indicar cuál)
-        - Ley de Hick (tiempo de decisión = log₂ opciones)
-        - Ley de Miller (7 ± 2 chunks)
-        - Ley de Fitts (tamaño/distancia del objetivo)
-        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
-        - Carga cognitiva (intrínseca / extrínseca / germana)
-        - Pre-selected opt-in / consentimiento manipulativo
-        - Hidden costs / bait and switch
-        - Confirmshaming / roach motel
-        - Forced continuity / sneak into basket
-        - Disguised ads / friend spam
-        - Progressive disclosure engañosa
-        - Hidden information
+        - Heurística de Nielsen
+        - Ley de Hick
+        - Ley de Miller
+        - Ley de Fitts
+        - Principios de Gestalt
+        - Carga cognitiva
+        - Dark pattern
         - Otro / no estoy seguro
     validations:
       required: true
@@ -418,11 +394,11 @@ body:
     validations:
       required: true
 
-  - type: input
+  - type: upload
     id: h4_capturas
     attributes:
-      label: 'Captura(s) del hallazgo 4'
-      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+      label: 'Adjuntar captura(s) del hallazgo 4'
+      description: 'Arrastra imágenes o haz clic para seleccionar. Formatos: PNG, JPG, GIF. Máximo 10MB por archivo.'
     validations:
       required: false
 
