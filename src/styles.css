@@ -506,3 +506,255 @@ input:focus { border-color: var(--primary); }
   .product-grid { grid-template-columns: 1fr 1fr; }
   .form-grid { grid-template-columns: 1fr; }
 }
+
+/* ========================================
+   Nuevos problemas de usabilidad (13-21)
+   ======================================== */
+
+/* PROBLEMA #19: Ley de Hick. Mega-nav con 11 categorías y hasta 5
+   subcategorías por categoría, desplegadas al pasar el mouse. */
+.mega-nav {
+  background: var(--primary);
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 5;
+}
+.mega-nav-item { position: relative; }
+.mega-nav-link {
+  color: white;
+  padding: 10px 14px;
+  display: block;
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.mega-nav-item:hover .mega-nav-link { background: rgba(255,255,255,0.15); }
+.mega-nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid var(--border);
+  min-width: 210px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  z-index: 10;
+  padding: 6px 0;
+}
+.mega-nav-item:hover .mega-nav-dropdown { display: block; }
+.mega-nav-dropdown a {
+  display: block;
+  padding: 8px 14px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+}
+.mega-nav-dropdown a:hover { background: var(--bg); }
+
+/* ---------- FOOTER ---------- */
+.site-footer {
+  background: #21252b;
+  color: #c8ccd1;
+  margin-top: 32px;
+  padding: 24px;
+}
+.footer-cols {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 20px;
+}
+.footer-links { display: flex; flex-direction: column; gap: 6px; }
+.footer-links a { color: #c8ccd1; text-decoration: none; font-size: 13px; }
+.footer-links a:hover { text-decoration: underline; }
+/* PROBLEMA #19 (continuación): el único enlace de búsqueda "de escape"
+   queda enterrado en el footer en letra de 10px. */
+.footer-search a { color: #8a8f98; font-size: 10px; text-decoration: none; }
+.footer-legal {
+  max-width: 1200px;
+  margin: 18px auto 0;
+  font-size: 11px;
+  color: #6c757d;
+  border-top: 1px solid #3a3f47;
+  padding-top: 12px;
+}
+
+/* PROBLEMA #13: Dark pattern - opt-in de partners con "trampa legal".
+   El texto legal permanece oculto hasta el primer clic. */
+.partners-legal-trap {
+  display: none;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.partners-legal-trap.show { display: block; }
+
+/* PROBLEMA #14: Dark pattern - friend spam / bait and switch tras compra. */
+.friend-spam-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+.friend-spam-modal {
+  background: white;
+  padding: 26px;
+  border-radius: 10px;
+  max-width: 420px;
+  width: 90%;
+}
+.friend-spam-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+}
+.btn-share-bait {
+  background: #2a9d3f;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+.btn-decline-tiny {
+  background: transparent;
+  border: 0;
+  color: #ccc;
+  font-size: 8px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* PROBLEMA #15: Disguised ad. Imita el estilo de un contenido editorial
+   propio; la etiqueta "Publicidad" queda casi invisible (opacity 0.3). */
+.disguised-ad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin: 18px 0;
+  text-decoration: none;
+  color: var(--text);
+  position: relative;
+}
+.disguised-ad-inner { display: flex; align-items: center; gap: 14px; }
+.disguised-ad-thumb { font-size: 28px; }
+.disguised-ad-title { font-weight: 600; font-size: 15px; }
+.disguised-ad-desc { font-size: 13px; color: var(--muted); }
+.disguised-ad-label {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font-size: 11px;
+  opacity: 0.3;
+}
+
+/* PROBLEMA #16: Dark pattern - forced continuity (trial premium). */
+.premium-box {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff8e6;
+}
+.premium-hero { text-align: center; margin: 10px 0 20px; }
+.premium-free-badge {
+  display: inline-block;
+  background: #2a9d3f;
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  padding: 10px 22px;
+  border-radius: 30px;
+  margin-bottom: 10px;
+}
+.premium-fineprint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+/* PROBLEMA #17: Hidden information - política de devolución con 14
+   secciones colapsables; la sección clave (11) queda enterrada. */
+.policy-page details.policy-section {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  padding: 10px 14px;
+}
+.policy-page summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+.policy-body p { font-size: 13px; color: var(--text); margin-top: 8px; line-height: 1.6; }
+
+/* PROBLEMA #18: Progressive disclosure manipulativa en el stepper de
+   checkout. La etiqueta "Opcional" del paso 3 es casi invisible. */
+.stepper-progress {
+  display: flex;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.stepper-progress .active { color: var(--primary); font-weight: 700; }
+.step3-optional { color: rgba(108,117,125,0.15); font-size: 11px; font-weight: 400; }
+
+/* PROBLEMA #21: Ley de Fitts. Botón real de confirmar diminuto (24x24px)
+   en la esquina; botón de cancelar enorme (240x80px), centrado y pulsante. */
+.fitts-zone { position: relative; height: 260px; margin-top: 20px; }
+.btn-cancel-huge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 240px;
+  height: 80px;
+  background: #ff1744;
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  animation: fitts-pulse 1s infinite;
+}
+@keyframes fitts-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,23,68,0.5); }
+  50% { box-shadow: 0 0 0 14px rgba(255,23,68,0); }
+}
+.btn-confirm-tiny {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  background: #e9ecef;
+  color: #e9ecef;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 8px;
+  padding: 0;
+}
+
+/* PROBLEMA #20: Ley de Miller. 47 especificaciones sin agrupar, con
+   estilos tipográficos mezclados sin ningún sistema. */
+.detail-specs { margin: 24px 0 10px; }
+.specs-wall { font-size: 13px; line-height: 1.9; }
+.specs-wall span { margin-right: 10px; }
+.spec-bold { font-weight: 700; }
+.spec-italic { font-style: italic; }
+.spec-underline { text-decoration: underline; }
+.spec-plain { }

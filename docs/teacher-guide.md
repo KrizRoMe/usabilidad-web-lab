@@ -8,20 +8,23 @@
 ## Información general
 
 - **Aplicación:** CompraFácil (tienda online ficticia).
-- **Total de problemas intencionales:** **12**.
+- **Total de problemas intencionales:** **21** (H-01 a H-12 originales + H-13 a H-21 añadidos).
 - **Severidades:**
-  - 4 Alta
-  - 5 Media
-  - 3 Baja
+  - 10 Alta
+  - 10 Media
+  - 1 Baja
 - **Principios cubiertos:**
   - ISO 9241-11 (efectividad, eficiencia, satisfacción)
   - 5 aspectos prácticos (aprendizaje, eficiencia, recuerdo, errores, satisfacción)
   - 10 heurísticas de Nielsen (varias)
   - Ley de Hick
+  - Ley de Miller y chunking
+  - Ley de Fitts
   - Carga cognitiva
-  - Miller y chunking
   - Gestalt: proximidad, similitud, cierre
-  - Dark patterns (FTC)
+  - Dark patterns (FTC): preselected opt-in, friend spam / bait and switch,
+    disguised ads, forced continuity, hidden information, progressive
+    disclosure manipulativa
 
 ---
 
@@ -169,6 +172,114 @@
 | **Severidad** | Baja |
 | **Solución** | Mensaje específico: "Auriculares Bluetooth ProSound X1 agregado" + botón "Ver carrito" en el toast. |
 
+## H-13 · Opt-in de partners con "trampa legal" de 2 clics (Dark pattern - FTC)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Checkout, debajo del checkbox de marketing (H-11) |
+| **Problema** | Checkbox "Acepto recibir ofertas de partners comerciales" viene **preseleccionado**. El primer clic NO lo desmarca: solo revela un texto legal pequeño ("puede retirar su consentimiento contactando a nuestro DPO en horario de oficina de lunes a viernes de 9:00 a 13:00"). Hace falta un **segundo clic** en un botón aparte ("Retirar consentimiento") para desmarcarlo de verdad. |
+| **Principio** | **Dark pattern — Preselected opt-in + trampa de fricción artificial (roach motel).** FTC, *Bringing Dark Patterns to Light* (2022). |
+| **Evidencia** | `#opt-partners` con `checked` por defecto; el listener de clic hace `preventDefault()` la primera vez y solo revela `#partners-legal-trap`. |
+| **Impacto** | El usuario cree que puede desmarcar con un clic normal; su consentimiento a compartir datos con terceros persiste más de lo esperado y el mecanismo de baja (DPO, horario de oficina) es deliberadamente poco práctico. |
+| **Severidad** | **Alta** |
+| **Solución** | Checkbox NO preseleccionado; un solo clic para desmarcar; canal de baja disponible en cualquier momento (no solo horario de oficina). |
+
+## H-14 · Friend spam / bait and switch tras la compra (Dark pattern - FTC)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Modal que aparece automáticamente tras confirmar un pedido |
+| **Problema** | Modal "¡Cuéntale a tus amigos!" con campos de WhatsApp y correo **pre-llenados** con una lista de 10 contactos ficticios. El botón "Compartir con 10 amigos" es verde, grande (16px) y ocupa todo el ancho; "No, gracias" es gris clarito y minúsculo (8px). |
+| **Principio** | **Dark pattern — Friend spam / Bait and switch.** Induce a compartir con contactos que el usuario nunca introdujo, aprovechando el momento de euforia post-compra. |
+| **Evidencia** | `.btn-share-bait` (`font-size:16px`, verde, ancho completo) vs `.btn-decline-tiny` (`font-size:8px`, gris). Campos `#spam-whatsapp` / `#spam-email` con valores predefinidos. |
+| **Impacto** | Alta probabilidad de clic accidental en "Compartir"; el usuario expone contactos sin haberlo decidido conscientemente. |
+| **Severidad** | **Alta** |
+| **Solución** | Ambos botones con la misma jerarquía visual; campos de contactos vacíos por defecto; opción de "compartir" claramente opt-in. |
+
+## H-15 · Publicidad disfrazada de contenido editorial (Dark pattern - FTC)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Página de detalle de producto, entre la descripción y "También te puede interesar" |
+| **Problema** | Un bloque con la misma tarjeta, tipografía y color que el resto del sitio simula ser un "artículo recomendado" ("10 trucos para ahorrar en tecnología"), pero enlaza a un dominio externo de terceros. La etiqueta "Publicidad" está en `opacity: 0.3`, casi fundida con el fondo. |
+| **Principio** | **Dark pattern — Disguised ads.** |
+| **Evidencia** | `.disguised-ad` reutiliza `var(--card)`/`var(--border)` del resto de tarjetas; `.disguised-ad-label { opacity: 0.3 }`; `target="_blank"` a un dominio externo. |
+| **Impacto** | El usuario hace clic pensando que es contenido propio del sitio y termina en una página externa sin saberlo. |
+| **Severidad** | Media |
+| **Solución** | Diferenciar visualmente los anuncios (marco distinto, fondo distinto); etiqueta "Publicidad" con contraste AA como mínimo. |
+
+## H-16 · Forced continuity: trial "gratis" con cancelación bloqueada (Dark pattern - FTC)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Ruta `/premium` (CTA desde "Mi cuenta") y "Mi cuenta" tras activar el trial |
+| **Problema** | El "Plan Premium" se anuncia como "¡GRATIS hoy!" en grande, pero requiere ingresar un número de tarjeta. El texto pequeño indica que se renueva automáticamente a $9.99/mes y que cancelar exige una solicitud por **correo postal certificado** con 72h de antelación. Una vez activado, el botón "Cancelar trial" en Mi cuenta aparece **deshabilitado** hasta el día 8 (cuando ya se habría iniciado el cobro). |
+| **Principio** | **Dark pattern — Forced continuity.** |
+| **Evidencia** | `renderPremium()` con `.premium-free-badge` prominente + `.premium-fineprint` pequeño; `#cancel-trial` con atributo `disabled` mientras `state.premiumTrialDay < 8`. |
+| **Impacto** | El usuario cree estar probando algo sin costo y sin poder cancelarlo a tiempo, termina siendo cobrado y con un canal de baja deliberadamente lento. |
+| **Severidad** | **Alta** |
+| **Solución** | Cancelación disponible en un clic desde el primer día; recordatorio antes de que finalice el trial; costos y condiciones con la misma prominencia que "gratis". |
+
+## H-17 · Información oculta en la política de devoluciones (Dark pattern - FTC)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Ruta `/devoluciones` |
+| **Problema** | La política tiene 14 secciones colapsables. La sección con la información realmente relevante para decidir una compra ("Excepciones a la política de devolución": ropa interior, productos personalizados y software sin devolución) es la **sección 11 de 14**, y dentro de ella el dato clave está en el **párrafo 6** de un bloque de texto largo. Requiere scroll + varios clics para llegar. |
+| **Principio** | **Dark pattern — Hidden information.** |
+| **Evidencia** | `returnPolicySections[10]` (índice 0-based) en `src/data.js`; se renderiza como `<details>` colapsado dentro de una lista de 14. |
+| **Impacto** | El usuario compra sin saber que su producto no admite devolución; se entera solo si tiene la paciencia de abrir y leer la sección 11 completa. |
+| **Severidad** | Media |
+| **Solución** | Mostrar las excepciones de no-devolución en la ficha del propio producto y en el checkout, no solo enterradas en una política larga. |
+
+## H-18 · Progressive disclosure manipulativa en el stepper de checkout (Dark pattern - FTC)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Stepper de checkout (`/checkout-steps`, previo al checkout real) |
+| **Problema** | El Paso 1 ("Dirección de envío") pide solo 3 campos, dando la impresión de un checkout corto. Al hacer clic en "Siguiente" aparece un Paso 2 no anunciado ("Dirección de facturación") con 5 campos más. El Paso 3 ("Verificación de identidad") exige foto del DNI, selfie con DNI y teléfono para SMS; la etiqueta "(Opcional)" junto a su título está en un color casi imperceptible (`rgba(108,117,125,0.15)`), pero en la práctica no se puede avanzar sin completar el teléfono. |
+| **Principio** | **Dark pattern — Progressive disclosure manipulativa (bait and switch en pasos) + Hidden costs.** |
+| **Evidencia** | `renderCheckoutSteps()` en `src/main.js`; clase `.step3-optional` con opacidad casi nula; validación de `#id-phone` obligatoria en el handler de `#fitts-confirm`. |
+| **Impacto** | El usuario subestima el esfuerzo real del checkout y, al llegar al paso 3, siente presión a entregar datos sensibles (DNI, selfie) que no esperaba y que se le presentaron como opcionales. |
+| **Severidad** | **Alta** |
+| **Solución** | Mostrar de entrada el número total de pasos y los datos que se pedirán; verificación de identidad realmente opcional o justificada con un motivo claro. |
+
+## H-19 · Mega-nav con sobrecarga de categorías (Ley de Hick)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Barra superior de navegación (mega-nav, debajo del header) |
+| **Problema** | 11 categorías principales, cada una con hasta 5 subcategorías desplegadas al pasar el mouse (con iconos). El buscador funcional no está en esta barra: queda escondido como un enlace de 10px en el footer. Encontrar un producto concreto exige como mínimo 3 clics (categoría → subcategoría → "Ver detalle"). |
+| **Principio** | **Ley de Hick** — el tiempo de decisión crece con el número y complejidad de las opciones (T = log₂(n)). |
+| **Evidencia** | `megaNavCategories` en `src/data.js` (11 × 5 = 55 opciones); `.footer-search a { font-size: 10px }`. |
+| **Impacto** | Parálisis por análisis ante tantas opciones; el usuario que preferiría buscar directamente no encuentra el buscador con facilidad. |
+| **Severidad** | Media |
+| **Solución** | Reducir a 5-7 categorías principales; buscador prominente y siempre visible; mega-menús solo para catálogos que realmente los necesiten. |
+
+## H-20 · Muro de 47 especificaciones sin agrupar (Ley de Miller)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Página de detalle de producto, sección "Especificaciones técnicas" |
+| **Problema** | 47 especificaciones técnicas en un bloque de texto corrido, sin agrupar por categoría (dimensiones, conectividad, batería, etc.), sin headings intermedios ni colores diferenciadores. Los estilos tipográficos (negrita, cursiva, subrayado, sin estilo) se aplican de forma aparentemente aleatoria. |
+| **Principio** | **Ley de Miller (7±2)** — la memoria de trabajo no puede procesar 47 ítems sueltos sin chunking. |
+| **Evidencia** | `productSpecs` (47 elementos) en `src/data.js`; `.specs-wall` renderiza todo en un único párrafo con clases `spec-bold/italic/underline/plain` cíclicas. |
+| **Impacto** | El usuario no puede escanear ni comparar especificaciones; abandona la lectura antes de encontrar el dato que buscaba. |
+| **Severidad** | Media |
+| **Solución** | Agrupar en 5-7 categorías con headings (Dimensiones, Conectividad, Batería, Audio, Garantía...); un único estilo tipográfico consistente. |
+
+## H-21 · Botón de confirmar diminuto vs. botón de cancelar enorme (Ley de Fitts)
+
+| Campo | Valor |
+|---|---|
+| **Ubicación** | Paso 3 del stepper de checkout (`.fitts-zone`) |
+| **Problema** | El botón real para avanzar ("Confirmar compra") mide 24×24px, color gris casi imperceptible, en la esquina inferior derecha. El botón "Cancelar y volver" mide 240×80px, rojo brillante, centrado, con animación pulsante. |
+| **Principio** | **Ley de Fitts** — T = a + b·log₂(D/W + 1): el tiempo para alcanzar un objetivo aumenta con la distancia y disminuye con su tamaño. Aquí la acción deseable (avanzar) tiene el peor target posible, y la indeseable (cancelar) el mejor. |
+| **Evidencia** | `.btn-confirm-tiny { width:24px; height:24px; background:#e9ecef; color:#e9ecef }` vs `.btn-cancel-huge { width:240px; height:80px; background:#ff1744; animation: fitts-pulse 1s infinite }`. |
+| **Impacto** | Alta probabilidad de que el usuario cancele el proceso por accidente, o abandone por no encontrar cómo continuar. |
+| **Severidad** | **Alta** |
+| **Solución** | Invertir la jerarquía: botón de confirmar grande y con color de marca (mínimo 88×44px), botón de cancelar en estilo secundario/ghost, sin animaciones que atraigan la atención hacia la opción destructiva. |
+
 ---
 
 ## 📋 Resumen tabular
@@ -187,6 +298,15 @@
 | H-10| Alta      | Nielsen #3 (control y libertad)              |
 | H-11| Media     | Dark pattern - FTC                           |
 | H-12| Baja      | Nielsen #1 (feedback genérico)               |
+| H-13| Alta      | Dark pattern - FTC (preselected opt-in)      |
+| H-14| Alta      | Dark pattern - FTC (friend spam)             |
+| H-15| Media     | Dark pattern - FTC (disguised ads)           |
+| H-16| Alta      | Dark pattern - FTC (forced continuity)       |
+| H-17| Media     | Dark pattern - FTC (hidden information)       |
+| H-18| Alta      | Dark pattern - FTC (progressive disclosure)  |
+| H-19| Media     | Ley de Hick                                  |
+| H-20| Media     | Ley de Miller                                |
+| H-21| Alta      | Ley de Fitts                                 |
 
 ## 💡 Sugerencias para la clase
 

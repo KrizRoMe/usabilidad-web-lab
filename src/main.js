@@ -1,4 +1,4 @@
-import { products, categories, priceRanges } from './data.js';
+import { products, categories, priceRanges, productSpecs, megaNavCategories, returnPolicySections } from './data.js';
 
 // =====================================================
 // Estado global de la aplicación
@@ -11,6 +11,11 @@ const state = {
   selectedProduct: null,
   cartOpen: false,
   filters: { category: 'Todas', price: 'Cualquier precio' },
+  optPartners: true,
+  partnersTrapRevealed: false,
+  premiumTrialActive: false,
+  premiumTrialDay: 1,
+  checkoutStep: 1,
 };
 
 // =====================================================
@@ -37,6 +42,8 @@ function render() {
       </button>
     </header>
 
+    ${renderMegaNav()}
+
     <nav class="main-nav">
       <a href="#" data-route="home">Inicio</a>
       <a href="#" data-route="category" data-cat="Audio">Audio</a>
@@ -56,6 +63,8 @@ function render() {
         ${renderMain()}
       </section>
     </div>
+
+    ${renderFooter()}
 
     <div class="cart-overlay" id="cart-overlay">
       <div class="cart-panel" id="cart-panel">
@@ -159,14 +168,60 @@ function renderSidebar() {
   return filters;
 }
 
+function renderMegaNav() {
+  // PROBLEMA #19: Ley de Hick - mega-nav con 11 categorías y hasta 5
+  // subcategorías desplegadas al hover, sin buscador visible.
+  return `
+    <nav class="mega-nav">
+      ${megaNavCategories.map(cat => `
+        <div class="mega-nav-item">
+          <a href="#" class="mega-nav-link" data-route="category" data-cat="${cat.name}">${cat.icon} ${cat.name}</a>
+          <div class="mega-nav-dropdown">
+            ${cat.subcategories.map(sub => `
+              <a href="#" data-route="category" data-cat="${cat.name}">${sub.icon} ${sub.name}</a>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </nav>
+  `;
+}
+
+function renderFooter() {
+  // PROBLEMA #19 (continuación): el buscador "de escape" queda enterrado
+  // en el footer, en letra de 10px.
+  return `
+    <footer class="site-footer">
+      <div class="footer-cols">
+        <div>
+          <strong>CompraFácil</strong>
+          <p>Tu tienda online de confianza.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#" data-route="devoluciones">Política de devoluciones</a>
+          <a href="#" data-route="ayuda">Centro de ayuda</a>
+          <a href="#" id="go-premium-footer">Plan Premium</a>
+        </div>
+        <div class="footer-search">
+          <a href="#" id="footer-search-link">buscar</a>
+        </div>
+      </div>
+      <div class="footer-legal">© 2026 CompraFácil. Todos los derechos reservados.</div>
+    </footer>
+  `;
+}
+
 function renderMain() {
-  if (state.route === 'home')     return renderHome();
-  if (state.route === 'category') return renderCategory();
-  if (state.route === 'detail')   return renderDetail();
-  if (state.route === 'checkout') return renderCheckout();
-  if (state.route === 'ofertas')  return renderOfertas();
-  if (state.route === 'ayuda')    return renderGenericPage('Centro de ayuda', '¿Necesitas ayuda? Escríbenos a soporte@comprafacil.test o llama al (01) 555-0000 de lunes a sábado de 9:00 a 18:00.');
-  if (state.route === 'cuenta')   return renderGenericPage('Mi cuenta', 'Inicia sesión para ver tu historial, direcciones guardadas y métodos de pago. (Función no disponible en este laboratorio.)');
+  if (state.route === 'home')           return renderHome();
+  if (state.route === 'category')       return renderCategory();
+  if (state.route === 'detail')         return renderDetail();
+  if (state.route === 'checkout-steps') return renderCheckoutSteps();
+  if (state.route === 'checkout')       return renderCheckout();
+  if (state.route === 'ofertas')        return renderOfertas();
+  if (state.route === 'ayuda')          return renderGenericPage('Centro de ayuda', '¿Necesitas ayuda? Escríbenos a soporte@comprafacil.test o llama al (01) 555-0000 de lunes a sábado de 9:00 a 18:00.');
+  if (state.route === 'cuenta')         return renderCuenta();
+  if (state.route === 'premium')        return renderPremium();
+  if (state.route === 'devoluciones')   return renderDevoluciones();
   return renderHome();
 }
 
@@ -219,6 +274,8 @@ function renderOfertas() {
 function renderDetail() {
   const p = state.selectedProduct;
   if (!p) return renderHome();
+  const related = products.filter(x => x.category === p.category && x.id !== p.id).slice(0, 3);
+  const specStyles = ['spec-bold', 'spec-italic', 'spec-underline', 'spec-plain'];
   return `
     <div class="detail-view">
       <div class="detail-img">Imagen del producto</div>
@@ -232,6 +289,34 @@ function renderDetail() {
         <p style="color: var(--muted); margin-bottom: 18px;">Producto de alta calidad. Envío a todo el país. Garantía del fabricante por 12 meses.</p>
         <button class="btn btn-primary" id="add-detail">Agregar al carrito</button>
       </div>
+    </div>
+
+    <!-- PROBLEMA #20: Ley de Miller - 47 especificaciones sin agrupar,
+         con estilos tipográficos aplicados sin ningún sistema. -->
+    <div class="detail-specs">
+      <h3>Especificaciones técnicas</h3>
+      <div class="specs-wall">
+        ${productSpecs.map((s, i) => `<span class="${specStyles[i % specStyles.length]}">${s}.</span> `).join('')}
+      </div>
+    </div>
+
+    <!-- PROBLEMA #15: Disguised ad - imita el estilo de un contenido
+         editorial del propio sitio; la etiqueta "Publicidad" está casi
+         invisible (opacity 0.3) y enlaza a un dominio externo. -->
+    <a class="disguised-ad" href="https://ofertas-terceros.example.com/oferta-tecnologia" target="_blank" rel="noopener noreferrer">
+      <div class="disguised-ad-inner">
+        <div class="disguised-ad-thumb">📰</div>
+        <div>
+          <div class="disguised-ad-title">10 trucos para ahorrar en tecnología este mes</div>
+          <div class="disguised-ad-desc">Descubre ofertas seleccionadas especialmente para ti.</div>
+        </div>
+      </div>
+      <span class="disguised-ad-label">Publicidad</span>
+    </a>
+
+    <div class="section-title">También te puede interesar</div>
+    <div class="product-grid">
+      ${related.map(x => productCard(x)).join('')}
     </div>
   `;
 }
@@ -311,6 +396,26 @@ function renderCheckout() {
         </div>
       </div>
 
+      <!-- PROBLEMA #13: Dark pattern. Opt-in de partners preseleccionado con
+           "trampa legal": el primer clic en el checkbox solo revela el texto
+           legal; hace falta un segundo clic en un botón aparte para
+           desmarcarlo de verdad. -->
+      <div class="marketing-optin partners-optin">
+        <div class="opt-positive">
+          <input type="checkbox" id="opt-partners" ${state.optPartners ? 'checked' : ''} />
+          <label for="opt-partners" style="margin:0; color: var(--primary);">Acepto recibir ofertas de partners comerciales.</label>
+        </div>
+        <div class="partners-legal-trap ${state.partnersTrapRevealed ? 'show' : ''}" id="partners-legal-trap">
+          <small>
+            Al aceptar, tus datos personales podrán ser compartidos con partners comerciales de
+            CompraFácil con fines de marketing directo. Puede retirar su consentimiento
+            contactando a nuestro Delegado de Protección de Datos (DPO) en horario de oficina
+            de lunes a viernes de 9:00 a 13:00, escribiendo a dpo@comprafacil.test.
+          </small>
+          <button type="button" class="btn btn-tiny" id="opt-partners-uncheck" style="margin-top:8px;">Retirar consentimiento</button>
+        </div>
+      </div>
+
       <div class="error-banner brief" id="err-banner"></div>
 
       <div class="checkout-actions">
@@ -333,6 +438,174 @@ function renderGenericPage(title, body) {
     <div class="checkout" style="text-align:center; padding: 60px 30px;">
       <h2>${title}</h2>
       <p style="color:var(--muted); margin-top:14px;">${body}</p>
+    </div>
+  `;
+}
+
+function renderCuenta() {
+  return `
+    <div class="checkout" style="text-align:center; padding: 40px 30px;">
+      <h2>Mi cuenta</h2>
+      <p style="color:var(--muted); margin-top:14px;">Inicia sesión para ver tu historial, direcciones guardadas y métodos de pago. (Función no disponible en este laboratorio.)</p>
+
+      <!-- PROBLEMA #16: Dark pattern - forced continuity. El botón para
+           cancelar el trial permanece deshabilitado hasta el día 8. -->
+      <div class="premium-box">
+        ${state.premiumTrialActive ? `
+          <h3>🌟 Plan Premium — Prueba activa</h3>
+          <p>Tu prueba gratuita está activa (Día ${state.premiumTrialDay} de 7).</p>
+          <button class="btn" id="cancel-trial" disabled title="Disponible a partir del día 8 de prueba">Cancelar trial</button>
+          <small style="display:block; margin-top:8px; color: var(--muted);">El botón se habilita el día 8, una vez iniciado el cobro mensual.</small>
+        ` : `
+          <h3>🌟 Plan Premium</h3>
+          <p>Envío exprés ilimitado, soporte prioritario y descuentos exclusivos.</p>
+          <a href="#" id="go-premium" class="btn btn-primary">Probar gratis 7 días</a>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function renderPremium() {
+  // PROBLEMA #16: Dark pattern - forced continuity. Trial "gratis" que
+  // requiere tarjeta y se renueva automáticamente; cancelar exige carta
+  // certificada con 72h de antelación.
+  return `
+    <div class="checkout premium-page">
+      <h2>Plan Premium</h2>
+      <div class="premium-hero">
+        <div class="premium-free-badge">¡GRATIS hoy!</div>
+        <p>Disfruta envío exprés ilimitado, soporte prioritario 24/7 y descuentos exclusivos con
+           tu prueba gratuita de 7 días.</p>
+      </div>
+      <div class="form-grid">
+        <div class="form-grid-full">
+          <div class="label-group"><label>Número de tarjeta</label></div>
+          <input type="text" id="premium-card" placeholder="1234 5678 9012 3456" />
+        </div>
+      </div>
+      <button class="btn btn-primary" id="activate-trial" style="margin-top:14px;">Activar prueba gratis</button>
+      <p class="premium-fineprint">
+        Se renueva automáticamente a $9.99/mes al finalizar el periodo de prueba de 7 días.
+        Para cancelar debe hacerlo con al menos 72 horas de antelación enviando una solicitud
+        por correo postal certificado a nuestras oficinas.
+      </p>
+    </div>
+  `;
+}
+
+function renderDevoluciones() {
+  // PROBLEMA #17: Hidden information. La política de devolución tiene 14
+  // secciones colapsables; la información clave (excepciones) está en la
+  // sección 11, párrafo 6.
+  return `
+    <div class="checkout policy-page">
+      <h2>Política de devoluciones</h2>
+      <p style="color:var(--muted); margin-bottom:14px;">Consulta las condiciones para devolver un producto adquirido en CompraFácil.</p>
+      ${returnPolicySections.map((s, i) => `
+        <details class="policy-section">
+          <summary>Sección ${i + 1} de ${returnPolicySections.length}: ${s.title}</summary>
+          <div class="policy-body">
+            ${s.body.map(p => `<p>${p}</p>`).join('')}
+          </div>
+        </details>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderCheckoutSteps() {
+  // PROBLEMA #18: Progressive disclosure manipulativa. Paso 1 pide solo 3
+  // campos visibles; el paso 2 revela 5 campos más de facturación; el
+  // paso 3 exige verificación de identidad (fotos + teléfono) marcado como
+  // "Opcional" en un color casi invisible, pero es obligatorio para avanzar.
+  // PROBLEMA #21: Ley de Fitts - en el paso 3, el botón real para confirmar
+  // mide 24x24px en la esquina, y el botón "Cancelar y volver" mide 240x80px,
+  // centrado y con animación pulsante.
+  const step = state.checkoutStep || 1;
+  return `
+    <div class="checkout stepper-page">
+      <div class="stepper-progress">
+        <span class="${step >= 1 ? 'active' : ''}">1. Envío</span> →
+        <span class="${step >= 2 ? 'active' : ''}">2. Facturación</span> →
+        <span class="${step >= 3 ? 'active' : ''}">3. Verificación <em class="step3-optional">(Opcional)</em></span>
+      </div>
+
+      ${step === 1 ? `
+        <h2>Paso 1: Dirección de envío</h2>
+        <div class="form-grid">
+          <div class="form-grid-full">
+            <div class="label-group"><label>Dirección</label></div>
+            <input type="text" id="st-addr" placeholder="Av. Principal 123" />
+          </div>
+          <div>
+            <div class="label-group"><label>Ciudad</label></div>
+            <input type="text" id="st-city" placeholder="Lima" />
+          </div>
+          <div>
+            <div class="label-group"><label>Código postal</label></div>
+            <input type="text" id="st-zip" placeholder="10001" />
+          </div>
+        </div>
+        <div class="checkout-actions">
+          <button class="btn btn-primary" id="step-next">Siguiente</button>
+        </div>
+      ` : ''}
+
+      ${step === 2 ? `
+        <h2>Paso 2: Dirección de facturación</h2>
+        <div class="form-grid">
+          <div>
+            <div class="label-group"><label>Nombre en la factura</label></div>
+            <input type="text" id="bill-name" />
+          </div>
+          <div>
+            <div class="label-group"><label>RUC / DNI fiscal</label></div>
+            <input type="text" id="bill-doc" />
+          </div>
+          <div class="form-grid-full">
+            <div class="label-group"><label>Dirección fiscal</label></div>
+            <input type="text" id="bill-addr" />
+          </div>
+          <div>
+            <div class="label-group"><label>Ciudad fiscal</label></div>
+            <input type="text" id="bill-city" />
+          </div>
+          <div>
+            <div class="label-group"><label>País fiscal</label></div>
+            <input type="text" id="bill-country" />
+          </div>
+        </div>
+        <div class="checkout-actions">
+          <button class="btn btn-ghost" id="step-back">Atrás</button>
+          <button class="btn btn-primary" id="step-next">Siguiente</button>
+        </div>
+      ` : ''}
+
+      ${step === 3 ? `
+        <h2>Paso 3: Verificación de identidad <span class="step3-optional">(Opcional)</span></h2>
+        <div class="form-grid">
+          <div>
+            <div class="label-group"><label>Foto del DNI (frontal)</label></div>
+            <input type="file" id="id-photo" />
+          </div>
+          <div>
+            <div class="label-group"><label>Selfie sosteniendo el DNI</label></div>
+            <input type="file" id="id-selfie" />
+          </div>
+          <div class="form-grid-full">
+            <div class="label-group"><label>Teléfono para verificación por SMS</label></div>
+            <input type="tel" id="id-phone" placeholder="+51 999 999 999" />
+          </div>
+        </div>
+        <div class="checkout-actions">
+          <button class="btn btn-ghost" id="step-back">Atrás</button>
+        </div>
+        <div class="fitts-zone">
+          <button class="btn-cancel-huge" id="fitts-cancel">Cancelar y volver</button>
+          <button class="btn-confirm-tiny" id="fitts-confirm" title="Confirmar compra" aria-label="Confirmar compra"></button>
+        </div>
+      ` : ''}
     </div>
   `;
 }
@@ -407,8 +680,11 @@ function attachListeners() {
 
   // Cart actions
   document.getElementById('checkout-btn')?.addEventListener('click', () => {
+    // PROBLEMA #18: antes de llegar al checkout real, se fuerza el paso
+    // por el stepper de "progressive disclosure" (envío → facturación → verificación).
     closeCart();
-    state.route = 'checkout';
+    state.route = 'checkout-steps';
+    state.checkoutStep = 1;
     render();
   });
   document.getElementById('empty-cart')?.addEventListener('click', () => {
@@ -454,8 +730,9 @@ function attachListeners() {
     if (state.selectedProduct) addToCart(state.selectedProduct.id);
   });
 
-  // Nav
-  document.querySelectorAll('.main-nav a').forEach(a => {
+  // Nav (incluye .main-nav, el mega-nav y los enlaces del footer,
+  // todos comparten el atributo data-route)
+  document.querySelectorAll('[data-route]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
       const r = a.dataset.route;
@@ -490,6 +767,74 @@ function attachListeners() {
     e.preventDefault();
     document.getElementById('opt-marketing').checked = false;
     showToast('Preferencias actualizadas.');
+  });
+
+  // PROBLEMA #13: checkbox de partners con "trampa legal" de 2 clics.
+  // El primer clic solo revela el texto legal; hace falta un segundo clic
+  // en el botón "Retirar consentimiento" para desmarcarlo de verdad.
+  document.getElementById('opt-partners')?.addEventListener('click', e => {
+    if (!state.partnersTrapRevealed) {
+      e.preventDefault();
+      e.target.checked = true;
+      state.partnersTrapRevealed = true;
+      document.getElementById('partners-legal-trap')?.classList.add('show');
+    }
+  });
+  document.getElementById('opt-partners-uncheck')?.addEventListener('click', () => {
+    state.optPartners = false;
+    state.partnersTrapRevealed = false;
+    const cb = document.getElementById('opt-partners');
+    if (cb) cb.checked = false;
+    document.getElementById('partners-legal-trap')?.classList.remove('show');
+    showToast('Preferencia de partners actualizada.');
+  });
+
+  // PROBLEMA #16: forced continuity - activar / "cancelar" (deshabilitado) el trial.
+  document.getElementById('go-premium')?.addEventListener('click', e => {
+    e.preventDefault(); state.route = 'premium'; render();
+  });
+  document.getElementById('go-premium-footer')?.addEventListener('click', e => {
+    e.preventDefault(); state.route = 'premium'; render();
+  });
+  document.getElementById('activate-trial')?.addEventListener('click', () => {
+    state.premiumTrialActive = true;
+    state.premiumTrialDay = 1;
+    state.route = 'cuenta';
+    render();
+    showToast('Prueba Premium activada. ¡Disfruta 7 días gratis!');
+  });
+
+  // PROBLEMA #19: buscador "de escape" enterrado en el footer.
+  document.getElementById('footer-search-link')?.addEventListener('click', e => {
+    e.preventDefault();
+    const input = document.getElementById('search-input');
+    input?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    input?.focus();
+  });
+
+  // PROBLEMA #18 / #21: stepper de checkout con progressive disclosure
+  // manipulativa y violación de la ley de Fitts en el paso 3.
+  document.getElementById('step-next')?.addEventListener('click', () => {
+    state.checkoutStep = (state.checkoutStep || 1) + 1;
+    render();
+  });
+  document.getElementById('step-back')?.addEventListener('click', () => {
+    state.checkoutStep = Math.max(1, (state.checkoutStep || 1) - 1);
+    render();
+  });
+  document.getElementById('fitts-cancel')?.addEventListener('click', () => {
+    state.route = 'home';
+    state.checkoutStep = 1;
+    render();
+  });
+  document.getElementById('fitts-confirm')?.addEventListener('click', () => {
+    const phone = document.getElementById('id-phone')?.value.trim();
+    if (!phone) {
+      showToast('Debes completar el teléfono de verificación para continuar.');
+      return;
+    }
+    state.route = 'checkout';
+    render();
   });
 }
 
@@ -551,6 +896,47 @@ function placeOrder() {
   banner.textContent = `✓ Pedido confirmado. Total: S/ ${finalTotal.toFixed(2)}.`;
   banner.classList.add('show');
   state.cart = [];
+
+  // PROBLEMA #14: Dark pattern - friend spam / bait and switch tras la
+  // compra exitosa. "No, gracias" en gris 8px vs "Compartir" verde 16px.
+  showFriendSpamModal();
+}
+
+function showFriendSpamModal() {
+  const html = `
+    <div class="friend-spam-overlay" id="friend-spam-overlay">
+      <div class="friend-spam-modal">
+        <h3>🎉 ¡Cuéntale a tus amigos!</h3>
+        <p>Comparte CompraFácil con tus contactos y ambos reciben S/ 10 de descuento.</p>
+        <div class="form-grid" style="margin: 14px 0;">
+          <div class="form-grid-full">
+            <div class="label-group"><label>WhatsApp</label></div>
+            <input type="text" id="spam-whatsapp" value="Juan, María, Carlos, Ana, Luis, Rosa, Pedro, Sofía, Diego, Valentina" />
+          </div>
+          <div class="form-grid-full">
+            <div class="label-group"><label>Correos</label></div>
+            <input type="text" id="spam-email" value="juan@ejemplo.com, maria@ejemplo.com, carlos@ejemplo.com" />
+          </div>
+        </div>
+        <div class="friend-spam-actions">
+          <button id="friend-spam-share" class="btn-share-bait">Compartir con 10 amigos</button>
+          <button id="friend-spam-decline" class="btn-decline-tiny">No, gracias</button>
+        </div>
+      </div>
+    </div>
+  `;
+  const wrap = document.createElement('div');
+  wrap.innerHTML = html;
+  document.body.appendChild(wrap.firstElementChild);
+
+  document.getElementById('friend-spam-share')?.addEventListener('click', () => {
+    const list = document.getElementById('spam-whatsapp')?.value || '';
+    document.getElementById('friend-spam-overlay')?.remove();
+    showToast(`Compartido con: ${list}`);
+  });
+  document.getElementById('friend-spam-decline')?.addEventListener('click', () => {
+    document.getElementById('friend-spam-overlay')?.remove();
+  });
 }
 
 function openCart() { state.cartOpen = true; render(); }
