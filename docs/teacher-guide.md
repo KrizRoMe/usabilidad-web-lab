@@ -316,12 +316,14 @@
 4. **Discusión plenaria (15 min):** El docente modera. Revelar 1-2 problemas clave y discutir.
 5. **Cierre:** Resaltar que la usabilidad NO es subjetiva: hay principios medibles y citables.
 
-## 🎯 Criterios de evaluación sugeridos
+## 🎯 Lo que se espera del estudiante
 
-| Aspecto                          | Peso  |
-|----------------------------------|-------|
-| Número de hallazgos              | 20%   |
-| Calidad de la justificación      | 30%   |
-| Relación con principios          | 25%   |
-| Viabilidad de las soluciones     | 15%   |
-| Claridad de redacción            | 10%   |
+Esta sesión es una **práctica de aprendizaje**, no una evaluación con nota. Lo que se busca es que el estudiante:
+
+| Aspecto | Descripción |
+|---|---|
+| Identificación | Encuentra problemas relevantes (al menos 4) vinculados a un principio |
+| Evidencia | Demuestra claramente dónde está el problema (capturas, ruta, pasos) |
+| Análisis | Relaciona el problema con un principio de la Sesión 5 (ISO, Nielsen, Hick, Miller, Fitts, Gestalt) |
+| Solución | Propone soluciones técnicas y organizacionales razonables |
+| Comunicación | Presenta y argumenta sus hallazgos en la puesta en común |
