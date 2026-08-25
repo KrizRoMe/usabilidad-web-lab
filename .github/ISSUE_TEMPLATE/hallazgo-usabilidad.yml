@@ -1,380 +1,463 @@
 name: Reporte de Hallazgos de Usabilidad
 description: Documenta los 4 problemas de usabilidad que encontraste en CompraFácil
-title: '[Hallazgos] '
+title: "[Hallazgos] "
 labels:
-- hallazgo-usabilidad
-- needs-triage
+  - hallazgo-usabilidad
+  - needs-triage
 assignees: []
 body:
-- type: markdown
-  attributes:
-    value: '👋 Estudiante, usa esta plantilla para reportar los **4 hallazgos de usabilidad** que encontraste en el laboratorio CompraFácil.
 
+  - type: markdown
+    attributes:
+      value: |
+        👋 Estudiante, usa esta plantilla para reportar los "4 hallazgos de usabilidad"
+        que encontraste en el laboratorio CompraFácil.
 
-      📌 **Reglas:**
+        📌 Reglas:
+        - Cada Issue = 1 alumno con 4 hallazgos.
+        - Completa las 4 secciones de abajo (no dejes ninguna vacía).
+        - Cada hallazgo debe estar vinculado a un principio de la Sesión 5.
+        - Adjunta capturas en cada hallazgo.
 
-      - Cada Issue = 1 alumno con 4 hallazgos.
-
-      - Completa las 4 secciones de abajo (no dejes ninguna vacía).
-
-      - Cada hallazgo debe estar vinculado a un principio de la Sesión 5.
-
-      - Adjunta capturas en cada hallazgo.'
-- type: input
-  id: estudiante
-  attributes:
-    label: Nombre completo del estudiante
-    placeholder: 'Ej: Juan Pérez Ramírez'
-  validations:
-    required: true
-- type: input
-  id: codigo
-  attributes:
-    label: Código o sección
-    placeholder: 'Ej: CIV Sis · Diseño Web Lun 13:45-15:15'
-  validations:
-    required: true
-- type: dropdown
-  id: total
-  attributes:
-    label: ¿Cuántos hallazgos reportas en este Issue?
-    options:
-    - 4 hallazgos (lo esperado)
-    - 3 hallazgos (justifica abajo por qué)
-    - Menos de 3 (justifica abajo)
-  validations:
-    required: true
-- type: markdown
-  attributes:
-    value: '
-
-      ---
-
-      ## 🔍 HALLAZGO 1 de 4
-
-      '
-- type: input
-  id: h1_titulo
-  attributes:
-    label: Título corto del hallazgo 1
-    placeholder: 'Ej: Botón confirmar compra diminuto'
-  validations:
-    required: true
-- type: dropdown
-  id: h1_principio
-  attributes:
-    label: Principio violado (1)
-    options: &id001
-    - ISO 9241-11 (eficacia, eficiencia, satisfacción)
-    - Heurística de Nielsen (indicar cuál)
-    - Ley de Hick (tiempo de decisión = log₂ opciones)
-    - Ley de Miller (7 ± 2 chunks)
-    - Ley de Fitts (tamaño/distancia del objetivo)
-    - Principios de Gestalt (proximidad, similitud, cierre, etc.)
-    - Carga cognitiva (intrínseca / extrínseca / germana)
-    - Pre-selected opt-in / consentimiento manipulativo
-    - Hidden costs / bait and switch
-    - Confirmshaming / roach motel
-    - Forced continuity / sneak into basket
-    - Disguised ads / friend spam
-    - Progressive disclosure engañosa
-    - Hidden information
-    - Otro / no estoy seguro
-  validations:
-    required: true
-- type: input
-  id: h1_pantalla
-  attributes:
-    label: ¿En qué pantalla o sección ocurre?
-    placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
-  validations:
-    required: true
-- type: textarea
-  id: h1_descripcion
-  attributes:
-    label: Descripción del problema 1
-    description: 2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.
-  validations:
-    required: true
-- type: textarea
-  id: h1_evidencia
-  attributes:
-    label: Pasos para reproducir 1
-    description: Lista numerada, que el docente pueda replicarlo en su navegador.
-  validations:
-    required: true
-- type: textarea
-  id: h1_impacto
-  attributes:
-    label: Impacto para el usuario 1
-    description: ¿Cómo afecta al usuario? Vincula explícitamente con el principio.
-  validations:
-    required: true
-- type: dropdown
-  id: h1_severidad
-  attributes:
-    label: Severidad 1
-    options: &id002
-    - Baja (molestia menor)
-    - Media (afecta la experiencia)
-    - Alta (bloquea el objetivo o engaña)
-    - Crítica (pérdida de datos, dinero o privacidad)
-  validations:
-    required: true
-- type: textarea
-  id: h1_solucion
-  attributes:
-    label: Solución propuesta 1
-    description: Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe.
-  validations:
-    required: true
-- type: input
-  id: h1_capturas
-  attributes:
-    label: Captura(s) del hallazgo 1
-    description: Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).
-  validations:
-    required: false
-- type: markdown
-  attributes:
-    value: '
-
-      ---
-
-      ## 🔍 HALLAZGO 2 de 4
-
-      '
-- type: input
-  id: h2_titulo
-  attributes:
-    label: Título corto del hallazgo 2
-    placeholder: 'Ej: Botón confirmar compra diminuto'
-  validations:
-    required: true
-- type: dropdown
-  id: h2_principio
-  attributes:
-    label: Principio violado (2)
-    options: *id001
-  validations:
-    required: true
-- type: input
-  id: h2_pantalla
-  attributes:
-    label: ¿En qué pantalla o sección ocurre?
-    placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
-  validations:
-    required: true
-- type: textarea
-  id: h2_descripcion
-  attributes:
-    label: Descripción del problema 2
-    description: 2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.
-  validations:
-    required: true
-- type: textarea
-  id: h2_evidencia
-  attributes:
-    label: Pasos para reproducir 2
-    description: Lista numerada, que el docente pueda replicarlo en su navegador.
-  validations:
-    required: true
-- type: textarea
-  id: h2_impacto
-  attributes:
-    label: Impacto para el usuario 2
-    description: ¿Cómo afecta al usuario? Vincula explícitamente con el principio.
-  validations:
-    required: true
-- type: dropdown
-  id: h2_severidad
-  attributes:
-    label: Severidad 2
-    options: *id002
-  validations:
-    required: true
-- type: textarea
-  id: h2_solucion
-  attributes:
-    label: Solución propuesta 2
-    description: Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe.
-  validations:
-    required: true
-- type: input
-  id: h2_capturas
-  attributes:
-    label: Captura(s) del hallazgo 2
-    description: Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).
-  validations:
-    required: false
-- type: markdown
-  attributes:
-    value: '
-
-      ---
-
-      ## 🔍 HALLAZGO 3 de 4
-
-      '
-- type: input
-  id: h3_titulo
-  attributes:
-    label: Título corto del hallazgo 3
-    placeholder: 'Ej: Botón confirmar compra diminuto'
-  validations:
-    required: true
-- type: dropdown
-  id: h3_principio
-  attributes:
-    label: Principio violado (3)
-    options: *id001
-  validations:
-    required: true
-- type: input
-  id: h3_pantalla
-  attributes:
-    label: ¿En qué pantalla o sección ocurre?
-    placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
-  validations:
-    required: true
-- type: textarea
-  id: h3_descripcion
-  attributes:
-    label: Descripción del problema 3
-    description: 2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.
-  validations:
-    required: true
-- type: textarea
-  id: h3_evidencia
-  attributes:
-    label: Pasos para reproducir 3
-    description: Lista numerada, que el docente pueda replicarlo en su navegador.
-  validations:
-    required: true
-- type: textarea
-  id: h3_impacto
-  attributes:
-    label: Impacto para el usuario 3
-    description: ¿Cómo afecta al usuario? Vincula explícitamente con el principio.
-  validations:
-    required: true
-- type: dropdown
-  id: h3_severidad
-  attributes:
-    label: Severidad 3
-    options: *id002
-  validations:
-    required: true
-- type: textarea
-  id: h3_solucion
-  attributes:
-    label: Solución propuesta 3
-    description: Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe.
-  validations:
-    required: true
-- type: input
-  id: h3_capturas
-  attributes:
-    label: Captura(s) del hallazgo 3
-    description: Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).
-  validations:
-    required: false
-- type: markdown
-  attributes:
-    value: '
-
-      ---
-
-      ## 🔍 HALLAZGO 4 de 4
-
-      '
-- type: input
-  id: h4_titulo
-  attributes:
-    label: Título corto del hallazgo 4
-    placeholder: 'Ej: Botón confirmar compra diminuto'
-  validations:
-    required: true
-- type: dropdown
-  id: h4_principio
-  attributes:
-    label: Principio violado (4)
-    options: *id001
-  validations:
-    required: true
-- type: input
-  id: h4_pantalla
-  attributes:
-    label: ¿En qué pantalla o sección ocurre?
-    placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
-  validations:
-    required: true
-- type: textarea
-  id: h4_descripcion
-  attributes:
-    label: Descripción del problema 4
-    description: 2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.
-  validations:
-    required: true
-- type: textarea
-  id: h4_evidencia
-  attributes:
-    label: Pasos para reproducir 4
-    description: Lista numerada, que el docente pueda replicarlo en su navegador.
-  validations:
-    required: true
-- type: textarea
-  id: h4_impacto
-  attributes:
-    label: Impacto para el usuario 4
-    description: ¿Cómo afecta al usuario? Vincula explícitamente con el principio.
-  validations:
-    required: true
-- type: dropdown
-  id: h4_severidad
-  attributes:
-    label: Severidad 4
-    options: *id002
-  validations:
-    required: true
-- type: textarea
-  id: h4_solucion
-  attributes:
-    label: Solución propuesta 4
-    description: Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe.
-  validations:
-    required: true
-- type: input
-  id: h4_capturas
-  attributes:
-    label: Captura(s) del hallazgo 4
-    description: Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).
-  validations:
-    required: false
-- type: markdown
-  attributes:
-    value: '
-
-      ---
-
-      ✅ **Verificación antes de enviar**'
-- type: checkboxes
-  id: checks
-  attributes:
-    label: Confirmo que es correcto
-    options:
-    - label: Completé los 4 hallazgos (o justifiqué abajo si reporto menos)
+  - type: input
+    id: estudiante
+    attributes:
+      label: Nombre completo del estudiante
+      placeholder: 'Ej: Juan Pérez Ramírez'
+    validations:
       required: true
-    - label: Cada hallazgo está asociado a un principio de la Sesión 5
+
+  - type: input
+    id: codigo
+    attributes:
+      label: 'Código o sección'
+      placeholder: 'Ej: CIV Sis · Diseño Web Lun 13:45-15:15'
+    validations:
       required: true
-    - label: Cada hallazgo tiene pasos para reproducir y al menos 1 captura
+
+  - type: dropdown
+    id: total
+    attributes:
+      label: '¿Cuántos hallazgos reportas en este Issue?'
+      options:
+        - 4 hallazgos (lo esperado)
+        - 3 hallazgos (justifica abajo por qué)
+        - Menos de 3 (justifica abajo)
+    validations:
       required: true
-    - label: Cada hallazgo tiene una solución concreta, no genérica
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## 🔍 HALLAZGO 1 de 4
+
+  - type: input
+    id: h1_titulo
+    attributes:
+      label: 'Título corto del hallazgo 1'
+      placeholder: 'Ej: Botón confirmar compra diminuto'
+    validations:
       required: true
-- type: textarea
-  id: justificacion
-  attributes:
-    label: Si reportas menos de 4 hallazgos, justifica aquí por qué
-    placeholder: 'Solo si marcaste ''Menos de 3'' arriba. Ej: ''No pude identificar más problemas de los 12 pre-existentes.'''
-  validations:
-    required: false
+
+  - type: dropdown
+    id: h1_principio
+    attributes:
+      label: 'Principio violado (1)'
+      options:
+        - ISO 9241-11 (eficacia, eficiencia, satisfacción)
+        - Heurística de Nielsen (indicar cuál)
+        - Ley de Hick (tiempo de decisión = log₂ opciones)
+        - Ley de Miller (7 ± 2 chunks)
+        - Ley de Fitts (tamaño/distancia del objetivo)
+        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
+        - Carga cognitiva (intrínseca / extrínseca / germana)
+        - Pre-selected opt-in / consentimiento manipulativo
+        - Hidden costs / bait and switch
+        - Confirmshaming / roach motel
+        - Forced continuity / sneak into basket
+        - Disguised ads / friend spam
+        - Progressive disclosure engañosa
+        - Hidden information
+        - Otro / no estoy seguro
+    validations:
+      required: true
+
+  - type: input
+    id: h1_pantalla
+    attributes:
+      label: '¿En qué pantalla o sección ocurre?'
+      placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h1_descripcion
+    attributes:
+      label: 'Descripción del problema 1'
+      description: '2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h1_evidencia
+    attributes:
+      label: 'Pasos para reproducir 1'
+      description: 'Lista numerada, que el docente pueda replicarlo en su navegador.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h1_impacto
+    attributes:
+      label: 'Impacto para el usuario 1'
+      description: '¿Cómo afecta al usuario? Vincula explícitamente con el principio.'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: h1_severidad
+    attributes:
+      label: 'Severidad 1'
+      options:
+        - Baja (molestia menor)
+        - Media (afecta la experiencia)
+        - Alta (bloquea el objetivo o engaña)
+        - Crítica (pérdida de datos, dinero o privacidad)
+    validations:
+      required: true
+
+  - type: textarea
+    id: h1_solucion
+    attributes:
+      label: 'Solución propuesta 1'
+      description: "Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe."
+    validations:
+      required: true
+
+  - type: input
+    id: h1_capturas
+    attributes:
+      label: 'Captura(s) del hallazgo 1'
+      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## 🔍 HALLAZGO 2 de 4
+
+  - type: input
+    id: h2_titulo
+    attributes:
+      label: 'Título corto del hallazgo 2'
+      placeholder: 'Ej: Botón confirmar compra diminuto'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: h2_principio
+    attributes:
+      label: 'Principio violado (2)'
+      options:
+        - ISO 9241-11 (eficacia, eficiencia, satisfacción)
+        - Heurística de Nielsen (indicar cuál)
+        - Ley de Hick (tiempo de decisión = log₂ opciones)
+        - Ley de Miller (7 ± 2 chunks)
+        - Ley de Fitts (tamaño/distancia del objetivo)
+        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
+        - Carga cognitiva (intrínseca / extrínseca / germana)
+        - Pre-selected opt-in / consentimiento manipulativo
+        - Hidden costs / bait and switch
+        - Confirmshaming / roach motel
+        - Forced continuity / sneak into basket
+        - Disguised ads / friend spam
+        - Progressive disclosure engañosa
+        - Hidden information
+        - Otro / no estoy seguro
+    validations:
+      required: true
+
+  - type: input
+    id: h2_pantalla
+    attributes:
+      label: '¿En qué pantalla o sección ocurre?'
+      placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h2_descripcion
+    attributes:
+      label: 'Descripción del problema 2'
+      description: '2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h2_evidencia
+    attributes:
+      label: 'Pasos para reproducir 2'
+      description: 'Lista numerada, que el docente pueda replicarlo en su navegador.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h2_impacto
+    attributes:
+      label: 'Impacto para el usuario 2'
+      description: '¿Cómo afecta al usuario? Vincula explícitamente con el principio.'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: h2_severidad
+    attributes:
+      label: 'Severidad 2'
+      options:
+        - Baja (molestia menor)
+        - Media (afecta la experiencia)
+        - Alta (bloquea el objetivo o engaña)
+        - Crítica (pérdida de datos, dinero o privacidad)
+    validations:
+      required: true
+
+  - type: textarea
+    id: h2_solucion
+    attributes:
+      label: 'Solución propuesta 2'
+      description: "Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe."
+    validations:
+      required: true
+
+  - type: input
+    id: h2_capturas
+    attributes:
+      label: 'Captura(s) del hallazgo 2'
+      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## 🔍 HALLAZGO 3 de 4
+
+  - type: input
+    id: h3_titulo
+    attributes:
+      label: 'Título corto del hallazgo 3'
+      placeholder: 'Ej: Botón confirmar compra diminuto'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: h3_principio
+    attributes:
+      label: 'Principio violado (3)'
+      options:
+        - ISO 9241-11 (eficacia, eficiencia, satisfacción)
+        - Heurística de Nielsen (indicar cuál)
+        - Ley de Hick (tiempo de decisión = log₂ opciones)
+        - Ley de Miller (7 ± 2 chunks)
+        - Ley de Fitts (tamaño/distancia del objetivo)
+        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
+        - Carga cognitiva (intrínseca / extrínseca / germana)
+        - Pre-selected opt-in / consentimiento manipulativo
+        - Hidden costs / bait and switch
+        - Confirmshaming / roach motel
+        - Forced continuity / sneak into basket
+        - Disguised ads / friend spam
+        - Progressive disclosure engañosa
+        - Hidden information
+        - Otro / no estoy seguro
+    validations:
+      required: true
+
+  - type: input
+    id: h3_pantalla
+    attributes:
+      label: '¿En qué pantalla o sección ocurre?'
+      placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h3_descripcion
+    attributes:
+      label: 'Descripción del problema 3'
+      description: '2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h3_evidencia
+    attributes:
+      label: 'Pasos para reproducir 3'
+      description: 'Lista numerada, que el docente pueda replicarlo en su navegador.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h3_impacto
+    attributes:
+      label: 'Impacto para el usuario 3'
+      description: '¿Cómo afecta al usuario? Vincula explícitamente con el principio.'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: h3_severidad
+    attributes:
+      label: 'Severidad 3'
+      options:
+        - Baja (molestia menor)
+        - Media (afecta la experiencia)
+        - Alta (bloquea el objetivo o engaña)
+        - Crítica (pérdida de datos, dinero o privacidad)
+    validations:
+      required: true
+
+  - type: textarea
+    id: h3_solucion
+    attributes:
+      label: 'Solución propuesta 3'
+      description: "Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe."
+    validations:
+      required: true
+
+  - type: input
+    id: h3_capturas
+    attributes:
+      label: 'Captura(s) del hallazgo 3'
+      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## 🔍 HALLAZGO 4 de 4
+
+  - type: input
+    id: h4_titulo
+    attributes:
+      label: 'Título corto del hallazgo 4'
+      placeholder: 'Ej: Botón confirmar compra diminuto'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: h4_principio
+    attributes:
+      label: 'Principio violado (4)'
+      options:
+        - ISO 9241-11 (eficacia, eficiencia, satisfacción)
+        - Heurística de Nielsen (indicar cuál)
+        - Ley de Hick (tiempo de decisión = log₂ opciones)
+        - Ley de Miller (7 ± 2 chunks)
+        - Ley de Fitts (tamaño/distancia del objetivo)
+        - Principios de Gestalt (proximidad, similitud, cierre, etc.)
+        - Carga cognitiva (intrínseca / extrínseca / germana)
+        - Pre-selected opt-in / consentimiento manipulativo
+        - Hidden costs / bait and switch
+        - Confirmshaming / roach motel
+        - Forced continuity / sneak into basket
+        - Disguised ads / friend spam
+        - Progressive disclosure engañosa
+        - Hidden information
+        - Otro / no estoy seguro
+    validations:
+      required: true
+
+  - type: input
+    id: h4_pantalla
+    attributes:
+      label: '¿En qué pantalla o sección ocurre?'
+      placeholder: 'Ej: /checkout paso 3, página de detalle, modal del carrito...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h4_descripcion
+    attributes:
+      label: 'Descripción del problema 4'
+      description: '2-4 oraciones objetivas. ¿Qué ocurre? Solo lo que observaste.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h4_evidencia
+    attributes:
+      label: 'Pasos para reproducir 4'
+      description: 'Lista numerada, que el docente pueda replicarlo en su navegador.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: h4_impacto
+    attributes:
+      label: 'Impacto para el usuario 4'
+      description: '¿Cómo afecta al usuario? Vincula explícitamente con el principio.'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: h4_severidad
+    attributes:
+      label: 'Severidad 4'
+      options:
+        - Baja (molestia menor)
+        - Media (afecta la experiencia)
+        - Alta (bloquea el objetivo o engaña)
+        - Crítica (pérdida de datos, dinero o privacidad)
+    validations:
+      required: true
+
+  - type: textarea
+    id: h4_solucion
+    attributes:
+      label: 'Solución propuesta 4'
+      description: "Concreta, no solo 'mejorar el diseño'. Si puedes, muestra código o wireframe."
+    validations:
+      required: true
+
+  - type: input
+    id: h4_capturas
+    attributes:
+      label: 'Captura(s) del hallazgo 4'
+      description: 'Arrastra imágenes aquí o pega URL pública (Drive, imgur, etc.).'
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ✅ Verificación antes de enviar
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmo que es correcto
+      options:
+        - label: Completé los 4 hallazgos (o justifiqué abajo si reporto menos)
+          required: true
+        - label: Cada hallazgo está asociado a un principio de la Sesión 5
+          required: true
+        - label: Cada hallazgo tiene pasos para reproducir y al menos 1 captura
+          required: true
+        - label: Cada hallazgo tiene una solución concreta, no genérica
+          required: true
+
+  - type: textarea
+    id: justificacion
+    attributes:
+      label: 'Si reportas menos de 4 hallazgos, justifica aquí por qué'
+      placeholder: 'Solo si marcaste "Menos de 3" arriba. Ej: No pude identificar más problemas.'
+    validations:
+      required: false
